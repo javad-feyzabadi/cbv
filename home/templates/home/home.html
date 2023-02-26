@@ -2,8 +2,8 @@
 
 {% block content %}
 
-{% for car in cars %}
-    <h4>{{car.name}}</h4>
+{% for car in object_list %}
+    <h4><a href="{% url 'home:detail' car.id%}">{{car.name}}</a></h4>
 {% endfor %}
 
 {% endblock %}

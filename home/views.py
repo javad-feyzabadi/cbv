@@ -1,16 +1,42 @@
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+
 from . models import Car
 
-
-class Home(TemplateView):
+class HomeListView(ListView):
     template_name = 'home/home.html'
+    model = Car
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['cars'] = Car.objects.all()
-        return context
+class HomeDetailView(DetailView):
+    model = Car
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class Home(TemplateView):
+#     template_name = 'home/home.html'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['cars'] = Car.objects.all()
+#         return context
 
     # http_method_names=['get','options']
 
