@@ -1,6 +1,10 @@
 from django.urls import path
 
-from . views import LogoutUSer,LoginUSer,HomeListView,HomeDetailView,CreateView,DeleteView,UpdateView
+from . views import (MounthCar,LogoutUSer,
+                    LoginUSer,HomeListView,
+                    HomeDetailView,CreateView,
+                    DeleteView,UpdateView,MounthCar
+)
 
 app_name = 'home'
 
@@ -12,6 +16,7 @@ urlpatterns = [
     path('update/<int:pk>/',UpdateView.as_view(),name='car_update'),
     path('login/',LoginUSer.as_view(),name='login'),
     path('logout/',LogoutUSer.as_view(),name='logout'),
+    path('<int:year>/<int:month>',MounthCar.as_view(),name='mounth'),
 
 
 ]

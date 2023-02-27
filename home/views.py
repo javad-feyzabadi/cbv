@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import UpdateView,ListView,DetailView,FormView,TemplateView,CreateView,DeleteView
+from django.views.generic import (UpdateView,ListView,DetailView,
+                                  FormView,TemplateView,
+                                  CreateView,DeleteView,
+                                  MonthArchiveView
+)
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.views import LoginView,LogoutView
@@ -65,9 +69,18 @@ class LoginUSer(LoginView):
 class LogoutUSer(LogoutView):
     pass
 
+class MounthCar(MonthArchiveView):
+    model = Car
+    date_field = 'created'
+    template_name = 'home/home.html'
+    context_object_name = 'cars'  #object_list  => default
+    month_format = '%m'
+
+
+
 
 # class Home(TemplateView):
-#     template_name = 'home/home.html'
+#      template_name = 'home/home.html'
 
 #     def get_context_data(self, **kwargs):
 #         context = super().get_context_data(**kwargs)
