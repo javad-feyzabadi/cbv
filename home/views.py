@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic import ListView,DetailView,FormView,TemplateView
+from django.urls import reverse_lazy
+from django.contrib import messages
+
 
 from . models import Car
+from . forms import CarCreateForm
+
+
 
 class HomeListView(ListView):
     template_name = 'home/home.html'
@@ -13,7 +17,36 @@ class HomeListView(ListView):
 class HomeDetailView(DetailView):
     model = Car
 
+
+class CreateCarView(FormView):
+    template_name = 'home/create.html'
+    form_class = CarCreateForm
+    success_url = reverse_lazy('home:home')
+
     
+    def form_valid(self, form):
+        self._create_car(form.cleaned_data)
+        messages.success(self.request,'create car successfully','success')
+        return super().form_valid(form)
+    
+    def _create_car(self,data):
+        Car.objects.create(name = data['name'],owner = data['owner'],year = data['year'])
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 # class Home(TemplateView):
 #     template_name = 'home/home.html'
 
