@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import ListView,DetailView,FormView,TemplateView
+from django.views.generic import ListView,DetailView,FormView,TemplateView,CreateView
 from django.urls import reverse_lazy
 from django.contrib import messages
 
 
 from . models import Car
-from . forms import CarCreateForm
+# from . forms import CarCreateForm
 
 
 
@@ -18,23 +18,33 @@ class HomeDetailView(DetailView):
     model = Car
 
 
-class CreateCarView(FormView):
+# class CreateCarView(FormView):
+#     template_name = 'home/create.html'
+#     form_class = CarCreateForm
+#     success_url = reverse_lazy('home:home')
+
+    
+#     def form_valid(self, form):
+#         self._create_car(form.cleaned_data)
+#         messages.success(self.request,'create car successfully','success')
+#         return super().form_valid(form)
+    
+#     def _create_car(self,data):
+#         Car.objects.create(name = data['name'],owner = data['owner'],year = data['year'])
+
+
+class CreateView(CreateView):
+    model = Car
+    fields = ['name' , 'year']
     template_name = 'home/create.html'
-    form_class = CarCreateForm
     success_url = reverse_lazy('home:home')
 
-    
-    def form_valid(self, form):
-        self._create_car(form.cleaned_data)
+    def form_valid(self, form ):
+        car = form.save(commit=False)
+        car.owner = self.request.user.username if self.request.user.username else 'nothing'
+        car.save()
         messages.success(self.request,'create car successfully','success')
         return super().form_valid(form)
-    
-    def _create_car(self,data):
-        Car.objects.create(name = data['name'],owner = data['owner'],year = data['year'])
-
-
-    
-
 
 
 
