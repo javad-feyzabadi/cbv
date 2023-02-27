@@ -3,7 +3,10 @@
 {% block content %}
 
 {% for car in object_list %}
-    <h4><a href="{% url 'home:detail' car.id%}">{{car.name}}</a></h4>
-{% endfor %}
+    <h4><a href="{% url 'home:detail' car.id%}">{{car.name}}     |||     </a><small><a href="{% url 'home:car_delete' car.id %}">delete ||| </a><a href="{% url 'home:car_update' car.id%}">Update</a></small></h4>
+    
+    <br>
+    <br>
+    {% endfor %}
 
 {% endblock %}

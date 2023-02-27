@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import ListView,DetailView,FormView,TemplateView,CreateView
+from django.views.generic import UpdateView,ListView,DetailView,FormView,TemplateView,CreateView,DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.views import LoginView,LogoutView
 
 
 from . models import Car
@@ -47,14 +48,22 @@ class CreateView(CreateView):
         return super().form_valid(form)
 
 
+class DeleteView(DeleteView):
+    model = Car
+    success_url = reverse_lazy('home:home')
+    template_name = 'home/delete.html'
 
+class UpdateView(UpdateView):
+    model = Car
+    success_url = reverse_lazy('home:home')
+    fields = ['name','year']
+    template_name = 'home/update.html'
 
-
-
-
-
-
-
+class LoginUSer(LoginView):
+    template_name= 'home/login.html'
+    
+class LogoutUSer(LogoutView):
+    pass
 
 
 # class Home(TemplateView):
