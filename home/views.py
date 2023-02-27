@@ -9,18 +9,60 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.views import LoginView,LogoutView
 
+from rest_framework.generics import ListAPIView,RetrieveAPIView
 
 from . models import Car
+from . serializers import CarSerializer
 # from . forms import CarCreateForm
 
 
 
-class HomeListView(ListView):
-    template_name = 'home/home.html'
-    model = Car
+class Home(ListAPIView):
+    serializer_class = CarSerializer
+    queryset = Car.objects.all()
 
-class HomeDetailView(DetailView):
-    model = Car
+
+class SingleCar(RetrieveAPIView):
+    serializer_class = CarSerializer
+    queryset = Car.objects.all()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class HomeListView(ListView):
+#     template_name = 'home/home.html'
+#     model = Car
+
+# class HomeDetailView(DetailView):
+#     model = Car
 
 
 # class CreateCarView(FormView):
@@ -38,43 +80,43 @@ class HomeDetailView(DetailView):
 #         Car.objects.create(name = data['name'],owner = data['owner'],year = data['year'])
 
 
-class CreateView(CreateView):
-    model = Car
-    fields = ['name' , 'year']
-    template_name = 'home/create.html'
-    success_url = reverse_lazy('home:home')
+# class CreateView(CreateView):
+#     model = Car
+#     fields = ['name' , 'year']
+#     template_name = 'home/create.html'
+#     success_url = reverse_lazy('home:home')
 
-    def form_valid(self, form ):
-        car = form.save(commit=False)
-        car.owner = self.request.user.username if self.request.user.username else 'nothing'
-        car.save()
-        messages.success(self.request,'create car successfully','success')
-        return super().form_valid(form)
+#     def form_valid(self, form ):
+#         car = form.save(commit=False)
+#         car.owner = self.request.user.username if self.request.user.username else 'nothing'
+#         car.save()
+#         messages.success(self.request,'create car successfully','success')
+#         return super().form_valid(form)
 
 
-class DeleteView(DeleteView):
-    model = Car
-    success_url = reverse_lazy('home:home')
-    template_name = 'home/delete.html'
+# class DeleteView(DeleteView):
+#     model = Car
+#     success_url = reverse_lazy('home:home')
+#     template_name = 'home/delete.html'
 
-class UpdateView(UpdateView):
-    model = Car
-    success_url = reverse_lazy('home:home')
-    fields = ['name','year']
-    template_name = 'home/update.html'
+# class UpdateView(UpdateView):
+#     model = Car
+#     success_url = reverse_lazy('home:home')
+#     fields = ['name','year']
+#     template_name = 'home/update.html'
 
-class LoginUSer(LoginView):
-    template_name= 'home/login.html'
+# class LoginUSer(LoginView):
+#     template_name= 'home/login.html'
     
-class LogoutUSer(LogoutView):
-    pass
+# class LogoutUSer(LogoutView):
+#     pass
 
-class MounthCar(MonthArchiveView):
-    model = Car
-    date_field = 'created'
-    template_name = 'home/home.html'
-    context_object_name = 'cars'  #object_list  => default
-    month_format = '%m'
+# class MounthCar(MonthArchiveView):
+#     model = Car
+#     date_field = 'created'
+#     template_name = 'home/home.html'
+#     context_object_name = 'cars'  #object_list  => default
+#     month_format = '%m'
 
 
 
