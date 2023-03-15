@@ -16,25 +16,13 @@ from . serializers import CarSerializer
 # from . forms import CarCreateForm
 
 
-
 class Home(ListAPIView):
     serializer_class = CarSerializer
     queryset = Car.objects.all()
 
-
 class SingleCar(RetrieveAPIView):
     serializer_class = CarSerializer
     queryset = Car.objects.all()
-
-
-
-
-
-
-
-
-
-
 
 
 
